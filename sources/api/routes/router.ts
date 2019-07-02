@@ -1,11 +1,30 @@
 import { Router } from 'express';
+import expressAsyncHandler from 'express-async-handler';
+import { check } from 'express-validator';
+
+import * as AuthController from '../controllers/AuthController';
+import * as RoomController from '../controllers/RoomController';
 
 const router = Router();
 
+//
 // Auth routes
-router.use('/auth', (req, res) => { res.send('Coming soon'); });
+//
+router.post('/authenticate', expressAsyncHandler(AuthController.googleAuth));
 
+router.get('/authenticate',
+           [check('code').not().isEmpty()],
+           expressAsyncHandler(AuthController.login));
+
+router.get('/debug', () => { AuthController.falseLogin(process.env.TOKEN); }); // TODO REMOVE
+
+//
 // Rooms routes
-router.use('/rooms', (req, res) => { res.send('Coming soon'); });
+//
+router.post('/rooms', expressAsyncHandler(RoomController.createRoom));
+
+router.get('/rooms/:id',
+           [check('id').not().isEmpty()],
+           expressAsyncHandler(RoomController.getRoom));
 
 export default router;
