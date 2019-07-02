@@ -21,7 +21,7 @@ export async function login(req: Request, res: Response) {
 
   const token = await GoogleProviderService.getToken(code);
 
-  const userEmail = GoogleProviderService.getUserEmail(token.tokens.access_token);
+  const userEmail = await GoogleProviderService.getUserEmail(token.tokens.access_token);
 
   const accessToken = jwt.sign(
     {
