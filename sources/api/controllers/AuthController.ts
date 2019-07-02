@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
+import * as jwt from 'jsonwebtoken';
 
-import { generateAuthUrl, getToken, fetchEventsTimeSlots } from '../services/GoogleProviderService';
+import * as GoogleProviderService from '../services/GoogleProviderService';
 
 export function googleAuth(req: Request, res: Response) {
-  const url = generateAuthUrl();
+  const url = GoogleProviderService.generateAuthUrl();
 
   console.log(url);
   res.redirect(url);
@@ -18,12 +19,23 @@ export async function login(req: Request, res: Response) {
 
   const code: string = req.query.code;
 
-  const token = await getToken(code);
+  const token = await GoogleProviderService.getToken(code);
 
-  console.log(token);
-  res.status(201).send('LOL');
+  const userEmail = GoogleProviderService.getUserEmail(token.tokens.access_token);
+
+  const accessToken = jwt.sign(
+    {
+      token: token.tokens.access_token,
+      email: userEmail,
+    },
+    process.env.JWT_ENCODE_KEY);
+
+  res.status(200).json({
+    message: 'Logged in successfully',
+    access_token: accessToken,
+  });
 }
 
 export async function falseLogin(token: string) {
-  console.log(await fetchEventsTimeSlots(token));
+  console.log(await GoogleProviderService.fetchEventsTimeSlots(token));
 }

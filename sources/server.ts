@@ -10,6 +10,7 @@ try {
   checkEnvVariable('GOOGLE_CLIENT_SECRET');
   checkEnvVariable('API_HOST');
   checkEnvVariable('MONGO_URI');
+  checkEnvVariable('JWT_ENCODE_KEY');
 } catch (e) {
   console.error(e.message);
   process.exit(1);

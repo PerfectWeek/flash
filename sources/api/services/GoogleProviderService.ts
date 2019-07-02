@@ -9,6 +9,8 @@ const oauth2Client = new google.auth.OAuth2({
 
 const scopes = [
   'https://www.googleapis.com/auth/calendar.readonly',
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/userinfo.email',
 ];
 
 export function generateAuthUrl() {
@@ -20,6 +22,16 @@ export function generateAuthUrl() {
 
 export function getToken(code: string): Promise<GetTokenResponse> {
   return oauth2Client.getToken(code);
+}
+
+export async function getUserEmail(token: string) {
+  oauth2Client.setCredentials({ access_token: token });
+
+  const oauthApi = google.oauth2({ version: 'v2', auth: oauth2Client });
+
+  const userInfo = await oauthApi.userinfo.get();
+
+  return userInfo.data.email;
 }
 
 export async function fetchEventsTimeSlots(token: string) {
