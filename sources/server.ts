@@ -9,14 +9,14 @@ try {
   checkEnvVariable('GOOGLE_CLIENT_ID');
   checkEnvVariable('GOOGLE_CLIENT_SECRET');
   checkEnvVariable('API_HOST');
-  checkEnvVariable('MONGO_URI');
+  checkEnvVariable('MONGODB_URI');
   checkEnvVariable('JWT_ENCODE_KEY');
 } catch (e) {
   console.error(e.message);
   process.exit(1);
 }
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, (err: any) => {
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }, (err: any) => {
   if (err) {
     console.log(err.message);
   } else {
