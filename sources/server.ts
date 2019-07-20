@@ -9,6 +9,7 @@ try {
   checkEnvVariable('GOOGLE_CLIENT_ID');
   checkEnvVariable('GOOGLE_CLIENT_SECRET');
   checkEnvVariable('API_HOST');
+  checkEnvVariable('WEB_HOST');
   checkEnvVariable('MONGODB_URI');
   checkEnvVariable('JWT_ENCODE_KEY');
 } catch (e) {

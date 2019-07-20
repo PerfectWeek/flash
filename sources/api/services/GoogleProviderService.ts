@@ -4,7 +4,7 @@ import { GetTokenResponse } from 'google-auth-library/build/src/auth/oauth2clien
 const oauth2Client = new google.auth.OAuth2({
   clientId: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  redirectUri: `${process.env.API_HOST}authenticate`,
+  redirectUri: `${process.env.WEB_HOST}auth`,
 });
 
 const scopes = [

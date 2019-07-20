@@ -8,7 +8,7 @@ export function googleAuth(req: Request, res: Response) {
   const url = GoogleProviderService.generateAuthUrl();
 
   console.log(url);
-  res.redirect(url);
+  res.send(url);
 }
 
 export async function login(req: Request, res: Response) {
