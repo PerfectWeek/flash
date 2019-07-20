@@ -29,7 +29,7 @@ export async function getRoom(req: Request, res: Response) {
   const room = await Room.findOne({ id });
 
   if (!room) {
-    res.status(404).json({
+    return res.status(404).json({
       message: 'Room not found',
     });
   }
