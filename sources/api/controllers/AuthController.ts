@@ -35,7 +35,3 @@ export async function login(req: Request, res: Response) {
     access_token: accessToken,
   });
 }
-
-export async function falseLogin(token: string) {
-  console.log(await GoogleProviderService.fetchEventsTimeSlots(token));
-}

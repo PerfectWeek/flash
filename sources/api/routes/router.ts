@@ -17,8 +17,6 @@ router.get('/authenticate',
            [check('code').not().isEmpty()],
            expressAsyncHandler(AuthController.login));
 
-router.get('/debug', () => { AuthController.falseLogin(process.env.TOKEN); }); // TODO REMOVE
-
 //
 // Rooms routes
 //
