@@ -5,6 +5,8 @@ import Room from '../../models/Room';
 import { User } from '../../utils/User';
 import { generateShortId } from '../../utils/generateShortId';
 import { formatRoom } from '../views/RoomView';
+import { fetchEventsTimeSlots } from '../services/GoogleProviderService';
+import { TimeSlot } from '../../utils/TimeSlot';
 
 export async function createRoom(req: Request, res: Response) {
 
@@ -58,7 +60,10 @@ export async function joinRoom(req: Request, res: Response) {
     room.members.splice(existingMember, 1);
   }
 
-  room.members.push(new User(user.email, [])); // TODO: Fetch timeSlots here
+  const slots: TimeSlot[][] = await fetchEventsTimeSlots(user.token);
+  const slotsFlat = slots.flat(2);
+
+  room.members.push(new User(user.email, slotsFlat)); // TODO: Fetch timeSlots here
   const joinedRoom = await room.save();
 
   res.status(200).json({
