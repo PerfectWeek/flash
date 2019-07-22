@@ -1,5 +1,6 @@
 import { google, calendar_v3 } from 'googleapis';
 import { GetTokenResponse } from 'google-auth-library/build/src/auth/oauth2client';
+import { TimeSlot } from '../../utils/TimeSlot';
 
 const oauth2Client = new google.auth.OAuth2({
   clientId: process.env.GOOGLE_CLIENT_ID,
@@ -34,7 +35,7 @@ export async function getUserEmail(token: string) {
   return userInfo.data.email;
 }
 
-export async function fetchEventsTimeSlots(token: string) {
+export async function fetchEventsTimeSlots(token: string): Promise<TimeSlot[][]> {
   const calendar = await google.calendar('v3');
 
   oauth2Client.setCredentials({
@@ -66,14 +67,14 @@ function isValid(googleEvent: calendar_v3.Schema$Event): boolean {
   return googleEvent !== undefined
     && googleEvent.start !== undefined
     && googleEvent.start.dateTime !== undefined
-    && googleEvent.summary !== undefined;
+    && googleEvent.transparency !== 'transparent';
 }
 
 async function importCalendar(
   googleCalendar: calendar_v3.Schema$CalendarListEntry,
-  calendar: calendar_v3.Calendar) {
+  calendar: calendar_v3.Calendar): Promise<TimeSlot[]> {
 
-  const eventsPromise = [];
+  const eventsPromise: TimeSlot[] = [];
 
   let nextPageToken = undefined;
 
@@ -98,11 +99,14 @@ async function importCalendar(
 
   const eventsToAdd = await Promise.all(eventsPromise).then((completed) => { return completed; });
 
-  return 'Calendar';
+  return eventsToAdd;
 }
 
-function loadGoogleEvent(googleEvent: calendar_v3.Schema$Event) {
-  if (googleEvent.transparency === 'opaque') {
-    console.log(googleEvent);
-  }
+function loadGoogleEvent(googleEvent: calendar_v3.Schema$Event): TimeSlot {
+  return new TimeSlot(
+    new Date(googleEvent.start.dateTime),
+    googleEvent.end.dateTime
+      ? new Date(googleEvent.end.dateTime)
+      : new Date(googleEvent.start.dateTime),
+  );
 }
