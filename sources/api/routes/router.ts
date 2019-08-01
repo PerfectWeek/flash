@@ -37,4 +37,15 @@ router.put(
   expressAsyncHandler(RoomController.joinRoom),
 );
 
+router.get(
+  '/rooms/:id/slots',
+  [
+    check('id').not().isEmpty(),
+    check('start_date').isISO8601().toDate(),
+    check('end_date').isISO8601().toDate(),
+  ],
+  loggedOnly,
+  expressAsyncHandler(RoomController.mergeSlots),
+);
+
 export default router;

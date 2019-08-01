@@ -7,6 +7,7 @@ import { generateShortId } from '../../utils/generateShortId';
 import { formatRoom } from '../views/RoomView';
 import { fetchEventsTimeSlots } from '../services/GoogleProviderService';
 import { TimeSlot } from '../../utils/TimeSlot';
+import { getOccupiedSlots } from '../services/SlotFinderService';
 
 export async function createRoom(req: Request, res: Response) {
 
@@ -69,5 +70,25 @@ export async function joinRoom(req: Request, res: Response) {
   res.status(200).json({
     message: 'Joined successfully',
     joined_room: joinedRoom,
+  });
+}
+
+export async function mergeSlots(req: Request, res: Response) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  const id: number = req.params.id;
+  const startDate: Date = req.query.start_date;
+  const endDate: Date = req.query.end_date;
+
+  const room = await Room.findOne({ id });
+
+  res.status(200).json({
+    message: 'Slots found',
+    slots: getOccupiedSlots(room.members
+      .map(m => m.timeSlots).flat(1),
+                            new TimeSlot(startDate, endDate)),
   });
 }
