@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Minimalist web app that allows you to find the best time slot for your meetings or activities.",
   "main": "index.js",
+  "engines": {
+    "node": "11.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf build && npm run build-ts && npm run tslint",
