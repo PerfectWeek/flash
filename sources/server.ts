@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
+import socketIo from 'socket.io';
 
 import app from './app';
 import { checkEnvVariable } from './utils/checkEnvVariable';
+import { socketHandler } from './api/services/SocketService';
 
 const port = process.env.PORT || 3000;
 
@@ -29,5 +31,9 @@ const server = app.listen(
   port,
   () => console.log(`Server is now running on port ${port}`),
 );
+
+const io = socketIo(server);
+
+io.on('connection', (socket: socketIo.Socket) => socketHandler(io, socket));
 
 export default server;

@@ -64,7 +64,7 @@ export async function joinRoom(req: Request, res: Response) {
   const slots: TimeSlot[][] = await fetchEventsTimeSlots(user.token);
   const slotsFlat = slots.flat(2);
 
-  room.members.push(new User(user.email, slotsFlat)); // TODO: Fetch timeSlots here
+  room.members.push(new User(user.email, slotsFlat));
   const joinedRoom = await room.save();
 
   res.status(200).json({
