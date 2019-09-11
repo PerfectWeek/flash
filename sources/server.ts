@@ -22,6 +22,7 @@ try {
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }, (err: any) => {
   if (err) {
     console.log(err.message);
+    process.exit(1);
   } else {
     console.log('Succesfully Connected!');
   }
