@@ -34,7 +34,8 @@ const server = app.listen(
 );
 
 const io = socketIo(server);
-
-io.on('connection', (socket: socketIo.Socket) => socketHandler(io, socket));
+io.on('connection', (socket: socketIo.Socket) => {
+  socketHandler(io, socket);
+});
 
 export default server;

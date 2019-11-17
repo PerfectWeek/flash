@@ -55,7 +55,7 @@ export async function joinRoom(req: Request, res: Response) {
   const room = await Room.findOne({ id });
 
   const existingMember = room.members.findIndex((m) => {
-    return m.email === user.email;
+    return m.name === user.name;
   });
   if (existingMember > -1) {
     room.members.splice(existingMember, 1);
@@ -64,7 +64,7 @@ export async function joinRoom(req: Request, res: Response) {
   const slots: TimeSlot[][] = await fetchEventsTimeSlots(user.token);
   const slotsFlat = slots.flat(2);
 
-  room.members.push(new User(user.email, slotsFlat));
+  room.members.push(new User(user.name, user.picture, slotsFlat));
   const joinedRoom = await room.save();
 
   res.status(200).json({

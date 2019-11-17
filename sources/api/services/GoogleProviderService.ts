@@ -25,14 +25,17 @@ export function getToken(code: string): Promise<GetTokenResponse> {
   return oauth2Client.getToken(code);
 }
 
-export async function getUserEmail(token: string) {
+export async function getUserInfo(token: string) {
   oauth2Client.setCredentials({ access_token: token });
 
   const oauthApi = google.oauth2({ version: 'v2', auth: oauth2Client });
 
   const userInfo = await oauthApi.userinfo.get();
 
-  return userInfo.data.email;
+  return {
+    name: userInfo.data.name ? userInfo.data.name : userInfo.data.email,
+    picture: userInfo.data.picture
+  };
 }
 
 export async function fetchEventsTimeSlots(token: string): Promise<TimeSlot[][]> {

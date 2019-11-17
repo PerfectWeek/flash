@@ -1,9 +1,11 @@
 export class User {
-  email: string;
+  name: string;
+  picture: string;
   timeSlots: any[];
 
-  public constructor(email: string, timeSlots: any[]) {
-    this.email = email;
+  public constructor(name: string, picture:string, timeSlots: any[]) {
+    this.name = name;
+    this.picture = picture;
     this.timeSlots = timeSlots;
   }
 }

@@ -21,12 +21,13 @@ export async function login(req: Request, res: Response) {
 
   const token = await GoogleProviderService.getToken(code);
 
-  const userEmail = await GoogleProviderService.getUserEmail(token.tokens.access_token);
+  const userInfo = await GoogleProviderService.getUserInfo(token.tokens.access_token);
 
   const accessToken = jwt.sign(
     {
       token: token.tokens.access_token,
-      email: userEmail,
+      name: userInfo.name,
+      picture: userInfo.picture
     },
     process.env.JWT_ENCODE_KEY);
 
