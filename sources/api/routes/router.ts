@@ -23,6 +23,12 @@ router.get(
   expressAsyncHandler(AuthController.login)
 );
 
+router.get(
+  "/me",
+  loggedOnly,
+  expressAsyncHandler(AuthController.userInfo)
+)
+
 //
 // Rooms routes
 //

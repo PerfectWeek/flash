@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
-import * as jwt from 'jsonwebtoken';
+import { Request, Response } from "express";
+import { validationResult } from "express-validator";
+import * as jwt from "jsonwebtoken";
 
-import * as GoogleProviderService from '../services/GoogleProviderService';
+import * as GoogleProviderService from "../services/GoogleProviderService";
 
 export function googleAuth(req: Request, res: Response) {
   const url = GoogleProviderService.generateAuthUrl();
@@ -21,7 +21,9 @@ export async function login(req: Request, res: Response) {
 
   const token = await GoogleProviderService.getToken(code);
 
-  const userInfo = await GoogleProviderService.getUserInfo(token.tokens.access_token);
+  const userInfo = await GoogleProviderService.getUserInfo(
+    token.tokens.access_token
+  );
 
   const accessToken = jwt.sign(
     {
@@ -29,10 +31,20 @@ export async function login(req: Request, res: Response) {
       name: userInfo.name,
       picture: userInfo.picture
     },
-    process.env.JWT_ENCODE_KEY);
+    process.env.JWT_ENCODE_KEY
+  );
 
   res.status(200).json({
-    message: 'Logged in successfully',
-    access_token: accessToken,
+    message: "Logged in successfully",
+    access_token: accessToken
   });
+}
+
+export async function userInfo(req: Request, res: Response) {
+  const user = (<any>req).user_info;
+
+  res.status(200).json({
+    message: "User found",
+    user: user.name,
+  })
 }
