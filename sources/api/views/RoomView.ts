@@ -4,5 +4,6 @@ export function formatRoom(room: IRoom) {
   return {
     id: room.id,
     members: room.members,
+    title: room.title,
   };
 }

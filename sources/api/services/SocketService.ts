@@ -11,4 +11,8 @@ export function socketHandler(io: socketIo.Server, socket: socketIo.Socket) {
   socket.on("disconnect", reason => {
     console.log(`User disconnected (${reason})`);
   });
+
+  socket.on("setRoomTitle", (id: string, title: string) => {
+    io.to(id).emit("roomTitleChanged", title);
+  })
 }
