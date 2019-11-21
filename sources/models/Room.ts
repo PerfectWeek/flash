@@ -12,7 +12,7 @@ export interface IRoom extends mongoose.Document {
 export const roomSchema = new mongoose.Schema({
   id: { type: String, required: true },
   members: { type: Array, required: false },
-  title: { type: String, required: false },
+  title: { type: String, required: true },
   expire_at: { type: Date, default: Date.now, expires: 3600 }
 });
 

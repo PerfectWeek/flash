@@ -10,7 +10,7 @@ import { TimeSlot } from "../../utils/TimeSlot";
 import { getOccupiedSlots } from "../services/SlotFinderService";
 
 export async function createRoom(req: Request, res: Response) {
-  const newRoom = new Room({ id: generateShortId(), members: [] });
+  const newRoom = new Room({ id: generateShortId(), members: [], title: 'Calendar' });
 
   const createdRoom = await newRoom.save();
 
