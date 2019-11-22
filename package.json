@@ -23,9 +23,7 @@
     "url": "https://github.com/PerfectWeek/flash/issues"
   },
   "homepage": "https://github.com/PerfectWeek/flash#readme",
-  "devDependencies": {
-    "typescript": "^3.5.2"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@types/cors": "^2.8.5",
     "@types/express": "^4.17.0",
@@ -48,6 +46,7 @@
     "socket.io": "^2.2.0",
     "ts-node": "^8.4.1",
     "tslint": "^5.18.0",
-    "tslint-config-airbnb": "^5.11.1"
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.7.2"
   }
 }
