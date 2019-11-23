@@ -33,7 +33,7 @@ export async function getUserInfo(token: string) {
   const userInfo = await oauthApi.userinfo.get();
 
   return {
-    name: userInfo.data.name ? userInfo.data.name : userInfo.data.email,
+    name: userInfo.data.name ? userInfo.data.name : 'Anonymous',
     picture: userInfo.data.picture
   };
 }
