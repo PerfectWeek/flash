@@ -10,6 +10,10 @@ export function socketHandler(io: socketIo.Server, socket: socketIo.Socket) {
     io.to(id).emit("focusTimeslot", { start, end });
   });
 
+  socket.on("eventCreated", (id: string) => {
+    io.to(id).emit("eventCreated");
+  })
+
   socket.on("disconnect", reason => {
     console.log(`User disconnected (${reason})`);
   });
